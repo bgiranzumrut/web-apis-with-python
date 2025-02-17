@@ -13,10 +13,19 @@ def index():
     3. If first name is not provided and second name is provided: respond with "Hello Mr <second-name>!"
     4. If first name is provided byt second name is not provided: respond with "Hello, <first-name>!"
     5. If both names are provided: respond with a question, "Is your name <fist-name> <second-name>
-    """
-    response = {"data": "Hello, World!"} #dictionary response
-    return jsonify(response) #returning the response as a json
+"""
+    fname = request.args.get("fname")
+    lname = request.args.get("lname")
 
-    if __name__ == "__main__":
-        app.run(debug=True)
+    if not fname and not lname:
+        return jsonify({"status": "error"})
+    elif fname and not lname:
+        response = { "data" : f"Hello, {fname}!" }
+    elif not fname and lname:
+        response = { "data" : f"Hello Mr {lname}!" }
+    else:
+        response = { "data" : f"Is your name {fname} {lname}?" }
+    return jsonify(response)
+
+
 
